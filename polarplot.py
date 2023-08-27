@@ -20,11 +20,16 @@ fig, (ax1, ax2) = plt.subplots(1, 2,subplot_kw={"projection":"polar"})
 splot = ax1.scatter(theta, r,s=2,c=color,cmap="plasma")
 ax1.set_yticks(np.array([]))
 ax1.set_xticks([])
+ax1.margins(x=0,y=0)
 
 #polar line plot
 pplot = ax2.plot(theta,r,linewidth=.5)[0]
 ax2.set_yticks(np.array([]))
 ax2.set_xticks([])
+ax2.margins(x=0,y=0)
+
+
+plt.margins(x=0,y=0)
 
 
 #updating plot for animation
@@ -40,7 +45,7 @@ def update(frame):
     pplot.set_ydata(r[:frame])
     return (splot,pplot)
     
-is_animated = True
+is_animated = False
 if is_animated == True:
     ani = animation.FuncAnimation(fig=fig, func=update, frames=len(r), interval=1)
 
