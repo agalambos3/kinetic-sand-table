@@ -17,7 +17,7 @@ color = np.linspace(0,1,len(r))
 fig, (ax1, ax2) = plt.subplots(1, 2,subplot_kw={"projection":"polar"})
 
 #polar scatter plot
-splot = ax1.scatter(theta, r,s=2,c=color,cmap="plasma")
+splot = ax1.scatter(theta, r,s=.5,c=color,cmap="plasma")
 ax1.set_yticks(np.array([]))
 ax1.set_xticks([])
 ax1.margins(x=0,y=0)
