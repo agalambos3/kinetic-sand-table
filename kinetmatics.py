@@ -4,9 +4,9 @@ Do the following for thr file until end is reached:
 2. if change in theta is large between two points interpret as erase track 
 2a. clear track (TODO: figure out how to generate thr file for erase track)
 3. if change in theta is small interpret as linear move
-3a. calculate number of steps needed from central and outer motor for
+3a. calculate number of steps needed from radial and angular stepper motor for
 theta move
-3b. compute number of steps needed from central motor to for radial move
+3b. compute number of steps needed from radial motor to for radial move
 3c. based on 3a and 3b calculate the number of steps 
 each motor needs to make for move
 4. Return number of steps each motor needs to make
