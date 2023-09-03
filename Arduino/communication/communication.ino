@@ -23,20 +23,27 @@
 */
 
 #include <elapsedMillis.h>
-#include <AccelStepper.h>
 
-
+static bool recieve_ready = false;
+elapsedMillis commandtime;
 // the setup function runs once when you press reset or power the board
 void setup() {
-  // initialize digital pin LED_BUILTIN as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
+  //do setup here
+  Serial.begin(115200);
+  //communicate that set-up is succesful
+  Serial.write("s");
+  recieve_ready = false;
 }
 
 
 // the loop function runs over and over again forever
 void loop() {
-  digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on (HIGH is the voltage level)
-  delay(1000);                      // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);   // turn the LED off by making the voltage LOW
-  delay(1000);                      // wait for a second
+  if(commandtime > 500){
+    commandtime = 0;
+    recieve_ready = true;
+  }
+  if(recieve_ready == true){
+    Serial.write("r");
+  }
+  recieve_ready = false;
 }
