@@ -24,26 +24,68 @@
 
 #include <elapsedMillis.h>
 
-static bool recieve_ready = false;
-elapsedMillis commandtime;
+// Global variables needed for table communication
+static bool recieve_ready = false; //whether table is ready to receive over serial
+elapsedMillis commandtime; 
+const byte numChars = 15; //maximum number of characters command will be
+char receivedChars[numChars]; //array for storing recieved command
+boolean newCommand = false;//whether there is new command that is ready to be parsed and executed
+
+
 // the setup function runs once when you press reset or power the board
 void setup() {
   //do setup here
   Serial.begin(115200);
   //communicate that set-up is succesful
   Serial.write("s");
-  recieve_ready = false;
+  recieve_ready = true;
 }
 
 
 // the loop function runs over and over again forever
 void loop() {
-  if(commandtime > 500){
-    commandtime = 0;
-    recieve_ready = true;
+  recvWithStartEndMarkers();
+  if(newCommand==true){
+    Serial.print("I recieved: ");
+    Serial.println(receivedChars);
   }
-  if(recieve_ready == true){
-    Serial.write("r");
-  }
-  recieve_ready = false;
 }
+
+void recvWithStartEndMarkers() {
+    static boolean recvInProgress = false;
+    static byte ndx = 0;
+    char startMarker = '<';
+    char endMarker = '>';
+    char rc;
+ 
+    while (Serial.available() > 0 && newCommand == false) {
+        rc = Serial.read();
+
+        if (recvInProgress == true) {
+            if (rc != endMarker) {
+                receivedChars[ndx] = rc;
+                ndx++;
+                if (ndx >= numChars) {
+                    ndx = numChars - 1;
+                }
+            }
+            else {
+                receivedChars[ndx] = '\0'; // terminate the string
+                recvInProgress = false;
+                ndx = 0;
+                newCommand = true;
+            }
+        }
+
+        else if (rc == startMarker) {
+            recvInProgress = true;
+        }
+    }
+}
+
+
+/*Components I need:
+Command reader - reads bytes from serial line and turns them into a char array. Should be called every time in loop that there is data in the serial port 
+Command parser - command parser takes char array returned by command reader and sets variables in order for command to execute
+(for example sets move to specific value)
+*/
