@@ -16,7 +16,6 @@ class arduino_communication:
             pass
         setup_byte = self.ser.read(1)
         setup_string = setup_byte.decode()
-        print(setup_string)
         if setup_string == "s":
             print("Succesful set-up, Arduino is ready to recieve commands")
         else:
