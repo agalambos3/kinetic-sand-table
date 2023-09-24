@@ -4,11 +4,13 @@ Arduinocomms com;
 
 void setup() {
   //do setup here
-  Serial.begin(115200);
-  Serial.write("Setup!");
-  
+  com.setup();
 }
 
 void loop() {
-Serial.write(com.giveChar());
+  com.readCommand();
+  if(com.commandReady == true){
+    Serial.write(com.receivedChars);
+    com.commandReady = false;
+  }
 }
