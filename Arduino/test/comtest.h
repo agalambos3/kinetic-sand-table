@@ -4,7 +4,6 @@
 class Arduinocomms {
     static const int numChars = 15;
     static const int cqsize = 5;
-    
     bool isRecieving;
     struct command 
     {
@@ -22,7 +21,7 @@ class Arduinocomms {
     char giveChar(); //test function that returns character
     void setup(); //setup communication
     void readCommand(); //read serial and stores in buffer
-    int parseCommand(); //takes command from buffer and parses it 
+    int parseCommand(char bufcommand[numChars]); //takes command from buffer and parses it 
         
 };
 

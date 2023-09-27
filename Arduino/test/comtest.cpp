@@ -45,3 +45,17 @@ void Arduinocomms::readCommand(){
     }
 
 }
+
+int Arduinocomms::parseCommand(char bufcommand[numChars]){
+    if (bufcommand[0] == 'S'){
+        if (bufcommand[1 == ' ']){
+            int indx = 2;
+            while(bufcommand[indx]!= ' '){
+
+            }
+        }
+        Serial.write("step command recieved\n");
+
+    }
+
+}
