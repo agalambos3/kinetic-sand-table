@@ -1,6 +1,6 @@
-#include "comtest.h"
+#include "SerialHandler.h"
 
-Arduinocomms com;
+SerialHandler com;
 
 void setup() {
   //do setup here
