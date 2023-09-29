@@ -1,4 +1,5 @@
 #include "SerialHandler.h"
+#include "CommandHandler.h"
 #include <Arduino.h>
 
 

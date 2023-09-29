@@ -1,3 +1,8 @@
+/*This class is responsible for:
+-setting up serial connection with python
+-requesting commands to be sent
+-confirming commands are receieved
+-confirming commmands have finished executing*/
 #ifndef serhandler
 #define serhandler
 
