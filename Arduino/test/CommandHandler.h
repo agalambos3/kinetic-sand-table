@@ -7,13 +7,18 @@
 #ifndef comhandler
 #define comhandler
 #include "Command.h"
+#include <cppQueue.h>
+
+
 class CommandHandler{
-    
-    
     public:
+
+    cppQueue stepQ = cppQueue(8,20,FIFO);
     bool isActiveStep;
     int parseCommmand();
     void run();//called each loop of main.ino
+    int setup();
+    int activateQ();//checks queue and if command is in it take 
 
 };
 

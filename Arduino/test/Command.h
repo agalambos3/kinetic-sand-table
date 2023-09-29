@@ -9,9 +9,6 @@ class Command{
     public:
     bool isActive;
     bool isFinished;
-
-
-
 };
 
 class stepCommand:public Command {
