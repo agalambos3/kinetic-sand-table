@@ -12,12 +12,13 @@
 
 class CommandHandler{
     public:
-
-    cppQueue stepQ = cppQueue(8,20,FIFO);
+    // TODO figure out size of command objects in queue in bytes so 
+    cppQueue stepQ = cppQueue(8,4,FIFO);
     bool isActiveStep;
     int parseCommmand();
     void run();//called each loop of main.ino
-    int setup();
+    int setup(); // called during set-up
+    bool checkQ(); //checks if queue is full
     int activateQ();//checks queue and if command is in it take 
 
 };
