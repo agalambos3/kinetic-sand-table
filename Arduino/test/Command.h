@@ -1,8 +1,8 @@
 /*This is class responsible for:
 -whenever command handler calls run() on command it executes it
 -given information on status of command if command is finished let handler know*/
-#ifndef com
-#define com
+#ifndef comm
+#define comm
 
 class Command{
     
