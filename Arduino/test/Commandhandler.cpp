@@ -19,3 +19,7 @@ int CommandHandler::activateQ(){
     
 }
 
+bool CommandHandler::checkQ(){
+    return stepQ.isFull();
+}
+
