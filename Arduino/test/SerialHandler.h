@@ -25,7 +25,7 @@ class SerialHandler {
 
     char giveChar(); //test function that returns character
     void setup(); //setup communication
-    void readCommand(); //read serial and stores in buffer
+    void readSerial(); //read serial and stores in buffer
     int requestCommand(); // requests a type of command to be sent over serial
     int completedCommand();//sends a character indicating the completion of a succesful command
     int parseCommand(char bufcommand[numChars]); //takes command from buffer and parses it 
