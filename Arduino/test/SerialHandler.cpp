@@ -14,7 +14,7 @@ void SerialHandler::setup(){
     Serial.write("r");
 }
 
-void SerialHandler::readCommand(){
+void SerialHandler::readSerial(){
     static boolean recvInProgress = false;
     static byte ndx = 0;
     char startMarker = '<';
@@ -47,6 +47,7 @@ void SerialHandler::readCommand(){
 
 }
 
+// TODO move over to command handler 
 int SerialHandler::parseCommand(char bufcommand[]){
     // TODO: rewrite with switch syntax bkecause it will be easier to follow and understand
     if (bufcommand[0] == 'S'){
