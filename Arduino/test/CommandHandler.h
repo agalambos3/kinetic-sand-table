@@ -9,18 +9,22 @@
 #include "Command.h"
 #include <cppQueue.h>
 
+struct stepCommand
+    {
+        long angular_steps;
+        long radial_steps;
+    };
 
 class CommandHandler{
+    
     public:
     // TODO figure out size of command objects in queue in bytes so 
-    cppQueue stepQ = cppQueue(8,4,FIFO);
+    cppQueue stepQ = cppQueue(sizeof(stepCommand),4,FIFO);
     bool isActiveStep;
-    int parseCommmand();
+    int parseCommmand(char bufcommand[]);
     void run();//called each loop of main.ino
     int setup(); // called during set-up
     bool checkQ(); //checks if queue is full
-    int activateQ();//checks queue and if command is in it take 
-
 };
 
 
