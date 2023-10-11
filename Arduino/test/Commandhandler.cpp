@@ -1,6 +1,5 @@
 #include "CommandHandler.h"
-
-
+#include <Arduino.h>
 
 int CommandHandler::setup()
 {
@@ -25,6 +24,8 @@ int CommandHandler::parseCommmand(char bufcommand[])
     case 'S':
         char stepchar_radial[5]= {};
         char stepchar_angular[5] = {};
+        long steps_radial;
+        long steps_angular;
 
         if (bufcommand[1] == ' '){
             int indx = 2;
@@ -46,8 +47,8 @@ int CommandHandler::parseCommmand(char bufcommand[])
                 }
             }
 
-        long steps_radial = atol(stepchar_radial);
-        long steps_angular = atol(stepchar_angular);
+        steps_radial = atol(stepchar_radial);
+        steps_angular = atol(stepchar_angular);
         stepCommand sc;
         sc.radial_steps = steps_radial;
         sc.angular_steps = steps_angular;
