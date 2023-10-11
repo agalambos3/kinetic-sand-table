@@ -1,5 +1,4 @@
 #include "SerialHandler.h"
-#include "CommandHandler.h"
 #include <Arduino.h>
 
 
@@ -47,6 +46,8 @@ void SerialHandler::readSerial(){
 
 }
 
+
+
 // TODO move over to command handler 
 int SerialHandler::parseCommand(char bufcommand[]){
     // TODO: rewrite with switch syntax bkecause it will be easier to follow and understand
@@ -88,3 +89,12 @@ int SerialHandler::parseCommand(char bufcommand[]){
     }
 
 }
+
+int SerialHandler::requestCommand(){
+    return 0;
+}
+
+int SerialHandler::completedCommand(){
+    return 0;
+}
+
