@@ -6,7 +6,6 @@
     */
 #ifndef comhandler
 #define comhandler
-#include "Command.h"
 #include <cppQueue.h>
 
 struct stepCommand
