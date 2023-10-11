@@ -30,7 +30,9 @@ int CommandHandler::parseCommmand(char bufcommand[])
         if (bufcommand[1] == ' '){
             int indx = 2;
             int radial_indx = 0;
-            while(bufcommand[indx]!= ' ' || radial_indx < 5){
+            while(bufcommand[indx]!= ' ' && radial_indx < 5){
+                // Serial.print("read from buffer: ");
+                // Serial.println(bufcommand[indx]);
                 
                 stepchar_radial[radial_indx] = bufcommand[indx];
                 indx++;
@@ -39,8 +41,9 @@ int CommandHandler::parseCommmand(char bufcommand[])
             if (bufcommand[indx] == ' '){
                 indx++;
                 int angular_indx = 0;
-                while(bufcommand[indx] != ' ' || angular_indx < 5)
+                while(bufcommand[indx] != ' ' && angular_indx < 5)
                 {
+                    
                     stepchar_angular[angular_indx]= bufcommand[indx];
                     indx++;
                     angular_indx++;
@@ -53,16 +56,14 @@ int CommandHandler::parseCommmand(char bufcommand[])
         sc.radial_steps = steps_radial;
         sc.angular_steps = steps_angular;
         stepQ.push(&sc);
+        return 1;
         }
         /* code */
-        break;
+        return 0;
 
     case 'L':
         /*code*/
-
-        break;    
-    default:
-        break;
+        return 1;    
     }
     return 0;
 }

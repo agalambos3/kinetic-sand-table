@@ -8,9 +8,8 @@ char SerialHandler::giveChar(){
 
 void SerialHandler::setup(){
     Serial.begin(115200);
-    Serial.write("s");
+    Serial.write("s\n");
     recieveReady = true;
-    Serial.write("r");
 }
 
 void SerialHandler::readSerial(){
@@ -50,7 +49,7 @@ void SerialHandler::readSerial(){
 
 // TODO move over to command handler 
 int SerialHandler::parseCommand(char bufcommand[]){
-    // TODO: rewrite with switch syntax bkecause it will be easier to follow and understand
+    // TODO: rewrite with switch syntax because it will be easier to follow and understand
     if (bufcommand[0] == 'S'){
         char stepchar_radial[5]= {};
         char stepchar_angular[5] = {};
@@ -91,7 +90,7 @@ int SerialHandler::parseCommand(char bufcommand[]){
 }
 
 int SerialHandler::requestCommand(){
-    return 0;
+    Serial.write('S');
 }
 
 int SerialHandler::completedCommand(){

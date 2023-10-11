@@ -1,5 +1,6 @@
 #include "SerialHandler.h"
 #include "CommandHandler.h"
+#include <Arduino.h>
 
 
 SerialHandler ser;
@@ -11,7 +12,21 @@ void setup() {
   //request command 
   ser.requestCommand();
   //parse command and add it to command queue
+  while(ser.commandReady!=true){
+    ser.readSerial();
+    }
+  Serial.println("ready command");
   com.parseCommmand(ser.receivedChars);
+  stepCommand peeked;
+  com.stepQ.pop(&peeked);
+  Serial.print("peeked command is: ");
+  Serial.print(peeked.angular_steps);
+  Serial.print(" angular step, ");
+  Serial.print(peeked.radial_steps);
+  Serial.println(" radial steps");
+  while(false){};
+  
+  
   //at this point table should have one command it can start running right away rest will fall into place
 }
 
@@ -22,7 +37,7 @@ void loop() {
   ser.readSerial(); //check serial port read and store to buffer command
 
   if (com.checkQ() != true){ // check if queue is full 
-    ser.requestCommand(); //if queue is not full request command over serial
+    // ser.requestCommand(); //if queue is not full request command over serial
   }
 
   if(ser.commandReady == true){ //check if there is command ready to be parsed from buffer
