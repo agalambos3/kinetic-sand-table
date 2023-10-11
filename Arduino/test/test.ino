@@ -1,7 +1,6 @@
 #include "SerialHandler.h"
 #include "CommandHandler.h"
 
- 
 
 SerialHandler ser;
 CommandHandler com;
@@ -12,7 +11,7 @@ void setup() {
   //request command 
   ser.requestCommand();
   //parse command and add it to command queue
-  com.parseCommmand();
+  com.parseCommmand(ser.receivedChars);
   //at this point table should have one command it can start running right away rest will fall into place
 }
 
@@ -27,7 +26,7 @@ void loop() {
   }
 
   if(ser.commandReady == true){ //check if there is command ready to be parsed from buffer
-    com.parseCommmand(); //parse command from buffer and add it to command queue
+    com.parseCommmand(ser.receivedChars); //parse command from buffer and add it to command queue
     ser.commandReady = false;
   }
 }
