@@ -13,16 +13,16 @@ class SerialHandler {
     
     
     public: 
-        bool recieveReady;
-        char receivedChars[numChars];
-        bool commandReady = false;
+        bool recieveReady; //whether serial is ready to receieve
+        char receivedChars[numChars]; //serial buffer
+        bool commandReady = false;//if command is sitting in serial buffer ready to be parsed 
 
     char giveChar(); //test function that returns character
     void setup(); //setup communication
     void readSerial(); //read serial and stores in buffer
     int requestCommand(); // requests a type of command to be sent over serial
     int completedCommand();//sends a character indicating the completion of a succesful command
-    int parseCommand(char bufcommand[]); //takes command from buffer and parses it 
+    int parseCommand(char bufcommand[]); //transferred over to CommandHandler
         
 };
 

@@ -34,7 +34,7 @@ void loop() {
 
   com.run(); //run active command or pop command from queue make active and then run command 
 
-  ser.readSerial(); //check serial port read and store to buffer command
+  ser.readSerial(); //check serial port read and store to buffer 
 
   if (com.checkQ() != true){ // check if queue is full 
     // ser.requestCommand(); //if queue is not full request command over serial

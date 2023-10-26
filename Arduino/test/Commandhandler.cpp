@@ -8,17 +8,18 @@ int CommandHandler::setup()
 
 void CommandHandler::run(){
     if(isActiveLight == true){
-        // do active command
+        // if there is active comand do  command
         if(arduino_light.run()==0){
             isActiveLight == false;
         }
     }
     else{
+        // if no active command pop from queue and set command class to command 
         lightCommand active_light;
         lightQ.pop(&active_light);
         arduino_light.set(active_light.duration);
         isActiveLight = true;
-        //get active command from queue
+        
     }
 
     }
@@ -71,7 +72,10 @@ int CommandHandler::parseCommmand(char bufcommand[])
         
 
     case 'L':
-        /*code*/
+        /*add code to parse light command. This is for testing purposese.
+        command should take form <L 3000>. This translates to light being on for 3000 milliseconds.
+        Also shold have command that turns light off (in order to test interupting of command). Something like <L X >*/
+
         return 1;    
     }
     return 0;
