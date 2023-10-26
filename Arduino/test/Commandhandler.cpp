@@ -3,17 +3,24 @@
 
 int CommandHandler::setup()
 {
+
 }
 
 void CommandHandler::run(){
-    if(isActiveStep==true){
-        // run command
+    if(isActiveLight == true){
+        // do active command
+        if(arduino_light.run()==0){
+            isActiveLight == false;
+        }
     }
     else{
-        //check queue for commands
-        //if command exists in queue make it active step command
-        //if active step command exists run command
+        lightCommand active_light;
+        lightQ.pop(&active_light);
+        arduino_light.set(active_light.duration);
+        isActiveLight = true;
+        //get active command from queue
     }
+
     }
      
 
@@ -58,8 +65,10 @@ int CommandHandler::parseCommmand(char bufcommand[])
         stepQ.push(&sc);
         return 1;
         }
-        /* code */
-        return 0;
+        else{
+            return 0;
+        }
+        
 
     case 'L':
         /*code*/
