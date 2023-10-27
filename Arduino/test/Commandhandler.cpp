@@ -72,6 +72,25 @@ int CommandHandler::parseCommmand(char bufcommand[])
         
 
     case 'L':
+        char durationchar[6]={};//char to store read duration 
+        long duration;
+        if (bufcommand[0]=' '){
+            int indx = 2;
+            int durindx = 0;
+            while (bufcommand[indx]!= ' ' && durindx <6){
+                durationchar[durindx] = bufcommand[indx];
+                indx++;
+                durindx++;
+            }
+            duration = atol(durationchar);
+            lightCommand lcommand;
+            lcommand.duration = duration;
+            lightQ.push(&lcommand);
+            
+        }
+        else{
+            return 0;
+        }
         /*add code to parse light command. This is for testing purposese.
         command should take form <L 3000>. This translates to light being on for 3000 milliseconds.
         Also shold have command that turns light off (in order to test interupting of command). Something like <L X >*/
