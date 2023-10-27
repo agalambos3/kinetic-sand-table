@@ -4,22 +4,25 @@
 Light::Light(long clength){
     duration = clength;
     lightElapsed = 0;
-    pinMode(13,LOW);
+    pinMode(13,OUTPUT);
+    digitalWrite(13,LOW);
+    
 }
 
 int Light::run(){
     if(lightElapsed < duration){
-        pinMode(13,HIGH);
+        digitalWrite(13,HIGH);
         return 1;
     }
     else{
-        pinMode(13,LOW);
-        lightElapsed = 0;
+        Serial.println("writing led low");
+        digitalWrite(13,LOW);
         return 0;
     }
 }
 
 int Light::set(long command_length){
+    lightElapsed = 0;
     duration = command_length;
     return 1;
 }
