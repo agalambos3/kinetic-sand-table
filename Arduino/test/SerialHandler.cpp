@@ -89,8 +89,18 @@ int SerialHandler::parseCommand(char bufcommand[]){
 
 }
 
-int SerialHandler::requestCommand(){
-    Serial.write('S');
+int SerialHandler::requestCommand(int command_type){
+    requestnum++;
+    switch (command_type)
+    {
+    case 0:
+        Serial.write('S');
+        break;
+    
+    case 1:
+        Serial.write('L');
+        break;
+    }
 }
 
 int SerialHandler::completedCommand(){
