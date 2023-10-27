@@ -30,9 +30,10 @@ class CommandHandler{
     bool isActiveStep;
     bool isActiveLight;
     int parseCommmand(char bufcommand[]);
-    void run();//called each loop of main.ino
+    int run();//called each loop of main.ino returns 1 if command completed in that cycle 
     int setup(); // called during set-up
-    bool checkQ(); //checks if queue is full
+    bool checkstepQ(); //checks if queue is full
+    bool checklightQ();//checks if light queue is full
 };
 
 
