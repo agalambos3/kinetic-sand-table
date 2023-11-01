@@ -3,6 +3,7 @@
 
 int CommandHandler::setup()
 {
+    return 1;
 }
 
 int CommandHandler::run(){

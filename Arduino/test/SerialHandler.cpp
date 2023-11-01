@@ -48,7 +48,7 @@ void SerialHandler::readSerial(){
 
 
 // TODO move over to command handler 
-int SerialHandler::parseCommand(char bufcommand[]){
+void SerialHandler::parseCommand(char bufcommand[]){
     // TODO: rewrite with switch syntax because it will be easier to follow and understand
     if (bufcommand[0] == 'S'){
         char stepchar_radial[5]= {};
@@ -89,7 +89,7 @@ int SerialHandler::parseCommand(char bufcommand[]){
 
 }
 
-int SerialHandler::requestCommand(int command_type){
+void SerialHandler::requestCommand(int command_type){
     requestnum++;
     switch (command_type)
     {
