@@ -10,7 +10,6 @@ void SerialHandler::setup(){
     // begin serial communication
     Serial.begin(115200);
     Serial.write("R");
-    recieveReady = true;
 }
 
 void SerialHandler::readSerial(){
