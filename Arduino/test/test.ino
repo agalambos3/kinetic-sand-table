@@ -29,16 +29,7 @@ void setup() {
       }
       
     }
-  // Serial.println("ready command");
-  // com.parseCommmand(ser.receivedChars);
-  // stepCommand peeked;
-  // com.stepQ.pop(&peeked);
-  // Serial.print("peeked command is: ");
-  // Serial.print(peeked.angular_steps);
-  // Serial.print(" angular step, ");
-  // Serial.print(peeked.radial_steps);
-  // Serial.println(" radial steps");
-  // while(false){};
+  
   
   
   //at this point table should have one command it can start running right away rest will fall into place
