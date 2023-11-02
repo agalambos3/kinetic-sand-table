@@ -8,13 +8,27 @@ CommandHandler com;
 
 void setup() {
   //do setup here
+
+  // serial setup, character sent to let python know it was succesful
   ser.setup();
-  //request command 
-  // ser.requestCommand();
-  // //parse command and add it to command queue
-  // while(ser.commandReady!=true){
-  //   ser.readSerial();
-  //   }
+    
+
+  // request initial light commands
+  for(int i = 0;i<4;i++){
+    ser.requestCommand(1);
+  }
+
+  //while light queue is not full read serial and parse command
+  while(com.checklightQ() !=true){
+    ser.readSerial();
+    if(ser.commandReady == true){
+      if(com.parseCommmand(ser.receivedChars)== 1){
+        Serial.println("command parsed");
+        ser.commandReady = false;
+        }
+      }
+      
+    }
   // Serial.println("ready command");
   // com.parseCommmand(ser.receivedChars);
   // stepCommand peeked;
@@ -28,27 +42,25 @@ void setup() {
   
   
   //at this point table should have one command it can start running right away rest will fall into place
-}
+  Serial.println("set-up complete");
+  
 
+}
 void loop() {
 
-  
-  if(com.run()==1){
-      ser.requestnum--;
-  } //run active command or pop command from queue make active and then run command
-   
+  // run command handler and if command just finished request another command 
+  if(com.run()==1){ 
+    ser.requestCommand(1);
+
+  }
 
   ser.readSerial(); //check serial port read and store to buffer 
 
-  if (com.checklightQ() != true && ser.requestnum <=4){ // check if queue is full 
-    ser.requestCommand(1); //if queue is not full request command over serial
-  }
-
-  if(ser.commandReady == true){ //check if there is command ready to be parsed from buffer
-    
+  if(ser.commandReady == true && com.checklightQ() !=true){ //check if there is command ready to be parsed from buffer and that queue is not full
     if(com.parseCommmand(ser.receivedChars)== 1){
       Serial.println("command parsed");
+      ser.commandReady = false;
     } //parse command from buffer and add it to command queue
-    ser.commandReady = false;
+    
   }
 }
