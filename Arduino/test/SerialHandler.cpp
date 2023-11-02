@@ -7,8 +7,9 @@ char SerialHandler::giveChar(){
 }
 
 void SerialHandler::setup(){
+    // begin serial communication
     Serial.begin(115200);
-    Serial.write("s\n");
+    Serial.write("R");
     recieveReady = true;
 }
 
@@ -94,11 +95,11 @@ void SerialHandler::requestCommand(int command_type){
     switch (command_type)
     {
     case 0:
-        Serial.write('S');
+        Serial.write("S\n");
         break;
     
     case 1:
-        Serial.write('L');
+        Serial.write("L\n");
         break;
     }
 }
