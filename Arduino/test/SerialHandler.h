@@ -13,7 +13,6 @@ class SerialHandler {
     
     public: 
         int requestnum; //number of requests made without a response 
-        bool recieveReady; //whether serial is ready to receieve
         char receivedChars[numChars]; //serial buffer
         bool commandReady = false;//if command is sitting in serial buffer ready to be parsed 
 
