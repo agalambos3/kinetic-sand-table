@@ -54,7 +54,7 @@ int CommandHandler::parseCommmand(char bufcommand[])
             lc.duration = duration;
             
             if(lightQ.push(&lc)==1){
-                Serial.println("Light command pushed to q");
+                // Serial.println("Light command pushed to q");
             };
             
             return 1;
