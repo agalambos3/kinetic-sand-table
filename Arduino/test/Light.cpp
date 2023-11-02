@@ -15,7 +15,6 @@ int Light::run(){
         return 1;
     }
     else{
-        Serial.println("writing led low");
         digitalWrite(LED_BUILTIN,LOW);
         return 0;
     }
