@@ -6,5 +6,10 @@
 #ifndef stepper
 #define stepper
 
+#include <Arduino.h>
+#include "TMCStepper.h"
+
+
+
 
 #endif
