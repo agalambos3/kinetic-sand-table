@@ -11,6 +11,8 @@ void setup() {
 
   // serial setup, character sent to let python know it was succesful
   ser.setup();
+
+  com.setup();
     
 
   // request initial light commands
