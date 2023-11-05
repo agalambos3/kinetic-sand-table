@@ -9,6 +9,8 @@
 #define comhandler
 #include "cppQueue.h"
 #include "Light.h"
+#include "Stepper.h"
+
 
 struct stepCommand
     {
@@ -22,6 +24,7 @@ struct lightCommand{
 
 class CommandHandler{
     Light arduino_light = Light(0);
+    Steppers steppers = Steppers();
 
     public:
     // TODO figure out size of command objects in queue in bytes so 
