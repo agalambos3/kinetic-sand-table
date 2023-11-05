@@ -2,8 +2,14 @@
 #include <Arduino.h>
 
 int CommandHandler::setup()
-{
-    return 1;
+{   
+    if(steppers.setup()==1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+    
 }
 
 int CommandHandler::run(){
