@@ -11,26 +11,26 @@ void setup() {
 
   // serial setup, character sent to let python know it was succesful
   ser.setup();
-
+  // command handler setups steppers (in future other stuff as well)
   com.setup();
     
 
-  // request initial light commands
-  for(int i = 0;i<4;i++){
-    ser.requestCommand(1);
-  }
+  // // request initial light commands
+  // for(int i = 0;i<4;i++){
+  //   ser.requestCommand(1);
+  // }
 
-  //while light queue is not full read serial and parse command
-  while(com.checklightQ() !=true){
-    ser.readSerial();
-    if(ser.commandReady == true){
-      if(com.parseCommmand(ser.receivedChars)== 1){
-        Serial.println("command parsed");
-        ser.commandReady = false;
-        }
-      }
+  // //while light queue is not full read serial and parse command
+  // while(com.checklightQ() !=true){
+  //   ser.readSerial();
+  //   if(ser.commandReady == true){
+  //     if(com.parseCommmand(ser.receivedChars)== 1){
+  //       Serial.println("command parsed");
+  //       ser.commandReady = false;
+  //       }
+  //     }
       
-    }
+  //   }
   
   
   
@@ -43,8 +43,7 @@ void loop() {
 
   // run command handler and if command just finished request another command 
   if(com.run()==1){ 
-    ser.requestCommand(1);
-
+    ser.requestCommand(0);
   }
 
   ser.readSerial(); //check serial port read and store to buffer 
