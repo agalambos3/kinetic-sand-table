@@ -43,3 +43,11 @@ int Steppers::setup(){
 
     return 1;
 }
+
+int Steppers::set(long angular,long radial){
+    angular_steps = angular;
+    radial_steps = radial;
+
+    return 1;
+
+}
