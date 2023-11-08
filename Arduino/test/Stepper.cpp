@@ -82,14 +82,14 @@ int Steppers::set(long angular,long radial){
 
 int Steppers::run(){
     if(angular_steps > 0 || radial_steps > 0){
-        if (angular_steps>0 && angular_elapsed_time > angular_step_interval)
+        if (angular_steps >0 && angular_elapsed_time > angular_step_interval)
         {
             digitalWrite(ANGULAR_STEP_PIN,HIGH);
             digitalWrite(ANGULAR_STEP_PIN,LOW);
             angular_steps--;
             angular_elapsed_time -= angular_step_interval;
         }
-        if (radial_steps> 0 && radial_elapsed_time > radial_step_interval)
+        if (radial_steps > 0 && radial_elapsed_time > radial_step_interval)
         {
             digitalWrite(RADIAL_STEP_PIN,HIGH);
             digitalWrite(RADIAL_STEP_PIN,LOW);
@@ -97,9 +97,11 @@ int Steppers::run(){
             radial_elapsed_time -= radial_step_interval;
 
         }
+        return 0;
         
     } 
     else{
-        return 0; // command is over return letting commandhandler know that this is the case 
+        Serial.println("step command is over");
+        return 1; // command is over return letting commandhandler know that this is the case 
     }
 }
