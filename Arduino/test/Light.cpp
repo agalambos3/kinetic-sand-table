@@ -12,11 +12,11 @@ Light::Light(long clength){
 int Light::run(){
     if(lightElapsed < duration){
         digitalWrite(LED_BUILTIN,HIGH);
-        return 1;
+        return 0;
     }
     else{
         digitalWrite(LED_BUILTIN,LOW);
-        return 0;
+        return 1;
     }
 }
 
