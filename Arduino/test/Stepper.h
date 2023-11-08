@@ -61,10 +61,13 @@
 
 
 class Steppers {
-    long angular_steps= 0;
+    long angular_steps = 0;
     long radial_steps= 0;
-    elapsedMicros angular_time;
-    elapsedMicros radial_time;
+    long angular_step_interval;
+    long radial_step_interval;
+    elapsedMicros angular_elapsed_time;
+    elapsedMicros radial_elapsed_time;
+    
     
     public:
     TMC2209Stepper radialDriver = TMC2209Stepper(&RADIAL_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
