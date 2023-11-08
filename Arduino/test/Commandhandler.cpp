@@ -12,10 +12,12 @@ int CommandHandler::setup()
     
 }
 
+// TODO make work for multiple types of commands
 int CommandHandler::run(){
-    if(isActiveLight == true){
-        if(arduino_light.run()==0){
-            isActiveLight = false;
+    
+    if(isActiveStep == true){
+        if(steppers.run()==1){
+            isActiveStep = false;
             return 1;
         }
         else{
@@ -23,19 +25,43 @@ int CommandHandler::run(){
         }
     }
     else{
-        // if no active command pop from queue and set command class to command
-        if(lightQ.isEmpty()!= true){
-            lightCommand active_light;
-            if(lightQ.pop(&active_light)==true){
-            Serial.println("command popped from lightq to be become active");
-            };
-            arduino_light.set(active_light.duration);
-            isActiveLight = true;
+        if (stepQ.isEmpty()!= true)
+        {
+            stepCommand active_step;
+            if (stepQ.pop(&active_step)==true)
+            {
+                Serial.println("command popped from step queue to be become active");
+            }
+            steppers.set(active_step.angular_steps,active_step.radial_steps);
+            isActiveStep = true;
+
         }
-        return 0;
-        
+        return 0;  
     }
 
+
+    // if(isActiveLight == true){
+    //     if(arduino_light.run()==1){
+    //         isActiveLight = false;
+
+    //     }
+    //     else{
+    //         return 0;
+    //     }
+    // }
+    // else{
+    //     // if no active command pop from queue and set command class to command
+    //     if(lightQ.isEmpty()!= true){
+    //         lightCommand active_light;
+    //         if(lightQ.pop(&active_light)==true){
+    //         Serial.println("command popped from lightq to be become active");
+    //         };
+    //         arduino_light.set(active_light.duration);
+    //         isActiveLight = true;
+    //     }
+    //     return 0;
+        
+    // }
     }
      
 
