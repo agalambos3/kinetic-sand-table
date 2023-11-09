@@ -30,7 +30,7 @@ int CommandHandler::run(){
             stepCommand active_step;
             if (stepQ.pop(&active_step)==true)
             {
-                Serial.println("command popped from step queue to be become active");
+                Serial.println("command popped from step queue to become active");
             }
             steppers.set(active_step.angular_steps,active_step.radial_steps);
             isActiveStep = true;
@@ -102,18 +102,15 @@ int CommandHandler::parseCommmand(char bufcommand[])
 
     case 'S':
     {
-        char stepchar_radial[5]= {};
-        char stepchar_angular[5] = {};
+        char stepchar_radial[7]= {};
+        char stepchar_angular[7] = {};
         long steps_radial;
         long steps_angular;
 
         if (bufcommand[1] == ' '){
             int indx = 2;
             int radial_indx = 0;
-            while(bufcommand[indx]!= ' ' && radial_indx < 5){
-                // Serial.print("read from buffer: ");
-                // Serial.println(bufcommand[indx]);
-                
+            while(bufcommand[indx]!= ' ' && radial_indx <= 7){
                 stepchar_radial[radial_indx] = bufcommand[indx];
                 indx++;
                 radial_indx++;
@@ -121,15 +118,16 @@ int CommandHandler::parseCommmand(char bufcommand[])
             if (bufcommand[indx] == ' '){
                 indx++;
                 int angular_indx = 0;
-                while(bufcommand[indx] != ' ' && angular_indx < 5)
+                while(bufcommand[indx] != ' ' && angular_indx <= 7)
                 {
-                    
+                    // Serial.print("read from buffer and added to angular: ");
+                    // Serial.println(bufcommand[indx]);
                     stepchar_angular[angular_indx]= bufcommand[indx];
                     indx++;
                     angular_indx++;
                 }
             }
-
+        
         steps_radial = atol(stepchar_radial);
         steps_angular = atol(stepchar_angular);
         stepCommand sc;
