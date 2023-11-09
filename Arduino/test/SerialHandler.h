@@ -7,7 +7,7 @@
 #define serhandler
 
 class SerialHandler {
-    static const int numChars = 15;
+    static const int numChars = 17;
     static const int cqsize = 5;
     bool isRecieving;
     
@@ -21,7 +21,6 @@ class SerialHandler {
     void readSerial(); //read serial and stores in buffer
     void requestCommand(int command_type); // requests a type of command to be sent over serial
     int completedCommand();//sends a character indicating the completion of a succesful command
-    void parseCommand(char bufcommand[]); //transferred over to CommandHandler
         
 };
 
