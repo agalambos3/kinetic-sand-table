@@ -102,8 +102,8 @@ int CommandHandler::parseCommmand(char bufcommand[])
 
     case 'S':
     {
-        char stepchar_radial[7]= {};
-        char stepchar_angular[7] = {};
+        char stepchar_radial[8]= {};
+        char stepchar_angular[8] = {};
         long steps_radial;
         long steps_angular;
 
