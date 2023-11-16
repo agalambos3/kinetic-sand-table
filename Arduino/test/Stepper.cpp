@@ -20,6 +20,7 @@ int Steppers::setup(){
     angularDriver.microsteps(16);
     angularDriver.en_spreadCycle(false);
     angularDriver.pwm_autoscale(true);
+    angularDriver.SGTHRS(STALL_VALUE);
 
     // setup pins for radial driver
     pinMode(RADIAL_STEP_PIN,OUTPUT);
@@ -39,6 +40,7 @@ int Steppers::setup(){
     radialDriver.microsteps(16);
     radialDriver.en_spreadCycle(false);
     radialDriver.pwm_autoscale(true);
+    radialDriver.SGTHRS(STALL_VALUE); //setting threshold for stall guard
 
 
     return 1;
@@ -83,6 +85,7 @@ int Steppers::set(long angular,long radial){
 
 int Steppers::run(){
     if(angular_steps > 0 || radial_steps > 0){
+        Serial.println(angularDriver.SG_RESULT());
         if (angular_steps > 0 && angular_elapsed_time > angular_step_interval)
         {
             digitalWrite(ANGULAR_STEP_PIN,HIGH);
