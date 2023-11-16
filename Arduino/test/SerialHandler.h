@@ -7,7 +7,7 @@
 #define serhandler
 
 class SerialHandler {
-    static const int numChars = 17;
+    static const int numChars = 18;
     static const int cqsize = 5;
     bool isRecieving;
     
