@@ -85,7 +85,7 @@ int Steppers::set(long angular,long radial){
 
 int Steppers::run(){
     if(angular_steps > 0 || radial_steps > 0){
-        Serial.println(angularDriver.SG_RESULT());
+        // Serial.println(angularDriver.SG_RESULT());
         if (angular_steps > 0 && angular_elapsed_time > angular_step_interval)
         {
             digitalWrite(ANGULAR_STEP_PIN,HIGH);
