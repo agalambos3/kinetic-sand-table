@@ -7,6 +7,9 @@ SerialHandler ser;
 CommandHandler com;
 
 void setup() {
+  while (!Serial) {
+    ;  // wait for serial port to connect. Needed for native USB port only
+  }
   //do setup here
 
   // serial setup, character sent to let python know it was succesful
