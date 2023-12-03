@@ -9,22 +9,22 @@
 #include "elapsedMillis.h"
 
 // pin defintions for angular stepper driver
-#define ANGULAR_EN_PIN 7 
-#define ANGULAR_DIR_PIN 6 
-#define ANGULAR_STEP_PIN 5
+#define ANGULAR_EN_PIN 9 
+#define ANGULAR_DIR_PIN 8 
+#define ANGULAR_STEP_PIN 7
 
 // serial defintions for angular stepper driver
-#define ANGULAR_SERIAL_PORT Serial2
+#define ANGULAR_SERIAL_PORT Serial1
 #define ANGULAR_DRIVER_ADDRESS 0b00
 
 // pin defitions for radial stepper driver
-#define RADIAL_EN_PIN 4 
-#define RADIAL_DIR_PIN 3 
-#define RADIAL_STEP_PIN 2
+#define RADIAL_EN_PIN 6 
+#define RADIAL_DIR_PIN 5 
+#define RADIAL_STEP_PIN 4
 
 // serial definitions for radial stepper driver
 #define RADIAL_SERIAL_PORT Serial1
-#define RADIAL_DRIVER_ADDRESS 0b00
+#define RADIAL_DRIVER_ADDRESS 0b01
 
 // internal resistor setting for TMC2209 so that current can be controlled through UART
 #define R_SENSE 0.11f
