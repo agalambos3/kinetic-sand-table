@@ -27,6 +27,7 @@ int Steppers::setup(){
     pinMode(RADIAL_STEP_PIN,OUTPUT);
     pinMode(RADIAL_DIR_PIN,OUTPUT);
     pinMode(RADIAL_EN_PIN,OUTPUT);
+    // Does the radial diag pin need to be set as an input?
 
     //enable radial driver in hardware
     digitalWrite(RADIAL_EN_PIN,LOW);
