@@ -31,8 +31,8 @@
 
 // internal resistor setting for TMC2209 so that current can be controlled through UART
 #define R_SENSE 0.11f
-// rms current for steppers 
-#define RMS_CURRENT 400
+// rms current for steppers (in milliamps)
+#define RMS_CURRENT 100
 // stall value at which stall guard is triggered. larger value make stall guard less sensitive (counter to what is online?)
 #define STALL_VALUE 2 
 
@@ -46,6 +46,8 @@
 // max speed in mm/s for radial stepper motor 
 #define RADIAL_MAX_MM_PER_SECOND 15
 
+
+// TODO: fix this section to be composed of only preprocessor directives, since these variable defintions are not not needed 
 
 // number of microsteps per revolution of stepper
 #define RADIAL_STEPS_PER_REVOLUTION RADIAL_MICROSTEPS*200
