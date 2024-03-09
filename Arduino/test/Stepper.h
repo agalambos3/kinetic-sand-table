@@ -31,6 +31,8 @@
 
 // internal resistor setting for TMC2209 so that current can be controlled through UART
 #define R_SENSE 0.11f
+// rms current for steppers 
+#define RMS_CURRENT 400
 // stall value at which stall guard is triggered. larger value make stall guard less sensitive (counter to what is online?)
 #define STALL_VALUE 2 
 

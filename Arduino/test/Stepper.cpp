@@ -18,7 +18,7 @@ int Steppers::setup(){
 
     // UART settings for angular driver
     angularDriver.toff(5);
-    angularDriver.rms_current(400);
+    angularDriver.rms_current(RMS_CURRENT);
     angularDriver.microsteps(ANGULAR_MICROSTEPS);
     angularDriver.en_spreadCycle(false);
     angularDriver.pwm_autoscale(true);
@@ -37,7 +37,7 @@ int Steppers::setup(){
 
     // UART settings for radial driver
     radialDriver.toff(5); //TODO: check what this value should be to get consistent stallguard results
-    radialDriver.rms_current(400);
+    radialDriver.rms_current(RMS_CURRENT);
     radialDriver.microsteps(RADIAL_MICROSTEPS);
     radialDriver.en_spreadCycle(false);
     radialDriver.pwm_autoscale(true);
