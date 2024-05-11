@@ -37,4 +37,4 @@
 TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
 TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
 
-int setup();
+int stepper_setup();
