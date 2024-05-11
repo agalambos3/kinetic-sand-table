@@ -27,14 +27,26 @@
 #define R_SENSE 0.11f
 // rms current for steppers (in milliamps)
 #define RMS_CURRENT 100
+// microstepping for angular stepper motor 
+#define MICROSTEPS 16
 // stall value at which stall guard is triggered
 #define STALL_VALUE 80
 // minimum time (in ms) between stall events (used for simple debouncing of diag pin) 
 #define MIN_STALL_TIME 100
 
+class Steppers{
+    TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
+    TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
+    int radialStepPeriod = 1;
+    int angularStepPeriod = 1;
+
+    public:
+    int setup();
+    void setRadialStepPeriod(int period);
+    void setAngularStepPeriod(int period);
+
+};
 
 
-TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
-TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
 
-int stepper_setup();
+
