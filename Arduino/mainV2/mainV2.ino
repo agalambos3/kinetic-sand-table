@@ -5,7 +5,7 @@ SerialHandler ser;
 
 
 void setup(){
-  ser.requestCommand(0);
+  ser.setup(0);
 
 }
 

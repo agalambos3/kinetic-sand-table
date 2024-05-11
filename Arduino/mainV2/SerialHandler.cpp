@@ -1,7 +1,6 @@
 #include "SerialHandler.h"
-
-#include "SerialHandler.h"
 #include <Arduino.h>
+
 
 
 char SerialHandler::giveChar(){
@@ -9,6 +8,7 @@ char SerialHandler::giveChar(){
 }
 
 void SerialHandler::setup(){
+    while (!Serial) {;} // wait for serial port to connect. Needed for native USB port only
     // begin serial communication
     Serial.begin(115200);
     Serial.write("R");
