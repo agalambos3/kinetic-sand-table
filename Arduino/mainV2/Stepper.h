@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "TMCStepper.h"
 #include "elapsedMillis.h"
 
@@ -30,3 +31,10 @@
 #define STALL_VALUE 80
 // minimum time (in ms) between stall events (used for simple debouncing of diag pin) 
 #define MIN_STALL_TIME 100
+
+
+
+TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
+TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
+
+int setup();
