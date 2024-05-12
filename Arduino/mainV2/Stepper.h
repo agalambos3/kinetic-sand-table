@@ -1,6 +1,11 @@
+#ifndef STEPPER_H
+#define STEPPER_H
+
 #include "Arduino.h"
 #include "TMCStepper.h"
 #include "elapsedMillis.h"
+
+
 
 // serial port for stepper driver 
 #define STEPPER_SERIAL_PORT Serial1
@@ -34,19 +39,29 @@
 // minimum time (in ms) between stall events (used for simple debouncing of diag pin) 
 #define MIN_STALL_TIME 100
 
-class Steppers{
-    TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
-    TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
-    int radialStepPeriod = 1;
-    int angularStepPeriod = 1;
 
-    public:
-    int setup();
-    void setRadialStepPeriod(int period);
-    void setAngularStepPeriod(int period);
+struct stepCommand{
+    long radialStepGoal;
+    long radialTimerCount;
+    long angularStepGoal;
+    long angularTimerCount;
+  };
 
+
+class StepperHandler{
+  TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
+  TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
+  stepCommand qdCommand;
+  public:
+  int setup();
+  void beginRadialCommand(long radialTout,long stepgoal);
+  void setqdCommand(long radialStepGoal, long radialTimerCount,long angularStepGoal, long angularTimerCount);
+  void beginqdCommand();
+  
+  
 };
 
+#endif
 
 
 
