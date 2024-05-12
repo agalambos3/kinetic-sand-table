@@ -51,9 +51,14 @@ struct stepCommand{
 class StepperHandler{
   TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
   TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
-  stepCommand qdCommand;
+  static long radialSteps;
+  static long angularSteps;
+  static stepCommand qdCommand;
+  static stepCommand activeCommand;
+  
   public:
   int setup();
+  long getRadialSteps();
   void beginRadialCommand(long radialTout,long stepgoal);
   void setqdCommand(long radialStepGoal, long radialTimerCount,long angularStepGoal, long angularTimerCount);
   void beginqdCommand();

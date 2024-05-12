@@ -52,6 +52,7 @@ int StepperHandler::setup(){
     return 1;
 }
 
+//sets the queued command
 void StepperHandler::setqdCommand(long radialStepGoal, long radialTimerCount,long angularStepGoal, long angularTimerCount){
   qdCommand.radialStepGoal = radialStepGoal;
   qdCommand.radialTimerCount = radialTimerCount;
@@ -60,15 +61,37 @@ void StepperHandler::setqdCommand(long radialStepGoal, long radialTimerCount,lon
 
 }
 
+long StepperHandler::getRadialSteps(){
+  return radialSteps;
+}
+
+//starts queued command
 void StepperHandler::beginqdCommand(){
+  activeCommand = qdCommand;
   //set up timer for radial direction
   TCCR3A = 0;           // Init Timer3
   TCCR3B = 0;           // Init Timer3
   TCCR3B |= (1 << CS10); //set Timer3 prescalar to 1
-  OCR3A = qdCommand.radialTimerCount;  // Timer3 CompareA Register
+  OCR3A = activeCommand.radialTimerCount;  // Timer3 CompareA Register
   // TODO add code for angular direction 
   
 }
+
+
+
+// ISR for stepper movement
+
+// ISR(TIMER3_COMPA_vect){
+//   if(getRadialSteps()<radialStepGoal){
+//     digitalWrite(RADIAL_STEP_PIN, HIGH);
+//     digitalWrite(RADIAL_STEP_PIN, LOW);
+//     OCR3A += radialSteps; 
+//     radialSteps += 1;
+//   }
+//   else{
+//     TCCR3B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping
+//     StepperHandler::isCommandActive = false; //sets is command active flag to false
+//   }
 
 // begins radial command for stepper
 // void StepperHandler::beginRadialCommand(long timerCount, long stepGoal){
