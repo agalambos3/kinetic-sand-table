@@ -48,10 +48,15 @@ class StepperHandler{
   TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
   volatile long radialSteps;
   volatile long angularSteps;
+  volatile bool radialDone;
+  volatile bool angularDone;
+  volatile bool commandDone;
+  stepCommand activeCommand;
   
   public:
   int setup();
-  void stepISR();
+  void radialStepISR();
+  void angularStepISR();
   void beginCommand(stepCommand* ptr);
   void beginRadialCommand(long radialTout,long stepgoal);
   void beginqdCommand();

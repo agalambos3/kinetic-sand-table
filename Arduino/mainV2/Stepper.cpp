@@ -55,10 +55,51 @@ int StepperHandler::setup(){
 
 // begins specified command 
 void StepperHandler::beginCommand(stepCommand* ptr){
-    stepCommand activatingCommand;
-    activatingCommand = *ptr;
+    activeCommand = *ptr;
+    radialSteps = 0;
+    angularSteps = 0;
+    radialDone = false;
+    angularDone = false;
+    commandDone = false;
+    //setup radial timer 
+    TCCR3A = 0;           // Init Timer3
+    TCCR3B = 0;           // Init Timer3
+    TCCR3B |= (1 << CS10); //set Timer3 prescalar to 1
+    OCR3A = activeCommand.radialTimerCount;   // Timer3 CompareA Register
+    OCR3B = activeCommand.angularTimerCount; //Timer3 CompareB Register
+    TIMSK3 |= (1 << OCIE1A);  // Enable Timer3 COMPA Interrupt
+    TIMSK3 |= (1 << OCIE1B); //  Enable Timer3 COMPB Interrupt
+    //TODO: check if CompareB register works for angular way I think it does
+
+    
 }
 
+void StepperHandler::radialStepISR(){
+  //make this section work nicer
+  if(radialSteps<activeCommand.radialStepGoal){
+    digitalWrite(RADIAL_STEP_PIN, HIGH);
+    digitalWrite(RADIAL_STEP_PIN, LOW);
+    OCR3A += activeCommand.radialTimerCount; 
+    radialSteps += 1;
+
+  }
+  else {
+  radialDone = true;
+  }
+
+}
+
+void StepperHandler::angularStepISR(){
+  if(angularSteps<activeCommand.angularStepGoal){
+    digitalWrite(ANGULAR_STEP_PIN, HIGH);
+    digitalWrite(ANGULAR_STEP_PIN, LOW);
+    OCR3A += activeCommand.angularTimerCount; 
+    angularSteps += 1;
+  }
+  else {
+  angularDone = true;
+  }
+}
 
 // void StepperHandler::stepISR(){
 //   if(&radialSteps < &activeCommand.radialStepGoal){
