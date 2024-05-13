@@ -3,23 +3,25 @@
 -requesting commands to be sent
 -confirming commands are receieved
 -confirming commmands have finished executing*/
-#ifndef serhandler
-#define serhandler
+#ifndef SERIALHANDLER_H
+#define SERIALHANDLER_H
+
+#define NUMCHARS 18 // number of characters in serial buffer
+#define CQSIZE 5
 
 class SerialHandler {
-    static const int numChars = 18;
-    static const int cqsize = 5;
     bool isRecieving;
+    bool parseReady = false;//if command is sitting in serial buffer ready to be parsed
+    int requestnum; //number of requests made without a response 
+    char receivedChars[NUMCHARS]; //received characters
     
     public: 
-        int requestnum; //number of requests made without a response 
-        char receivedChars[numChars]; //serial buffer
-        bool commandReady = false;//if command is sitting in serial buffer ready to be parsed 
-
     char giveChar(); //test function that returns character
     void setup(); //setup communication
     void readSerial(); //read serial and stores in buffer
     void requestCommand(int command_type); // requests a type of command to be sent over serial
+    char getreceivedChars();
+    bool isParseReady();
     int completedCommand();//sends a character indicating the completion of a succesful command
         
 };

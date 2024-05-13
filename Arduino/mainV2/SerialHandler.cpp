@@ -20,22 +20,22 @@ void SerialHandler::readSerial(){
     char startMarker = '<';
     char endMarker = '>';
     char rc;
-    while (Serial.available() > 0 && commandReady == false) {
+    while (Serial.available() > 0 && parseReady == false) {
         rc = Serial.read();
 
         if (recvInProgress == true) {
             if (rc != endMarker) {
                 receivedChars[ndx] = rc;
                 ndx++;
-                if (ndx >= numChars) {
-                    ndx = numChars - 1;
+                if (ndx >= NUMCHARS) {
+                    ndx = NUMCHARS - 1;
                 }
             }
             else {
                 receivedChars[ndx] = '\0'; // terminate the string
                 recvInProgress = false;
                 ndx = 0;
-                commandReady = true;
+                parseReady = true;
             }
         }
         
@@ -64,6 +64,14 @@ void SerialHandler::requestCommand(int command_type){
 
 int SerialHandler::completedCommand(){
     return 0;
+}
+
+char SerialHandler::getreceivedChars(){
+    return receivedChars;
+}
+
+bool SerialHandler::isParseReady(){
+  return parseReady;
 }
 
 

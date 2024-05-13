@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include "TMCStepper.h"
 #include "elapsedMillis.h"
+#include "utility.h"
 
 
 
@@ -40,27 +41,19 @@
 #define MIN_STALL_TIME 100
 
 
-struct stepCommand{
-    long radialStepGoal;
-    long radialTimerCount;
-    long angularStepGoal;
-    long angularTimerCount;
-  };
 
 
 class StepperHandler{
   TMC2209Stepper radialDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,RADIAL_DRIVER_ADDRESS);
   TMC2209Stepper angularDriver = TMC2209Stepper(&STEPPER_SERIAL_PORT,R_SENSE,ANGULAR_DRIVER_ADDRESS);
-  static long radialSteps;
-  static long angularSteps;
-  static stepCommand qdCommand;
-  static stepCommand activeCommand;
+  volatile long radialSteps;
+  volatile long angularSteps;
   
   public:
   int setup();
-  long getRadialSteps();
+  void stepISR();
+  void beginCommand(stepCommand* ptr);
   void beginRadialCommand(long radialTout,long stepgoal);
-  void setqdCommand(long radialStepGoal, long radialTimerCount,long angularStepGoal, long angularTimerCount);
   void beginqdCommand();
   
   

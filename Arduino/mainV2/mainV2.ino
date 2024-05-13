@@ -1,5 +1,7 @@
 #include "SerialHandler.h"
+#include "CommandHandler.h"
 #include "Stepper.h"
+
 
 
 
@@ -11,6 +13,7 @@ bool isCommandQd;
 
 SerialHandler ser;
 StepperHandler steppers;
+CommandHandler com;
 void setup(){
   ser.setup();
   
@@ -18,6 +21,30 @@ void setup(){
 }
 
 void loop(){
+  // checks if a step command is being executed
+  if(com.isCommandActive()==false){
+    if(com.isCommandQd()==true){
+      stepCommand* ptr; // step command pointer
+      com.activateQdCommand(ptr); //command handler activates command and pointer points to qD command 
+      steppers.beginCommand(ptr); //steppers begins executing activated command
+    }
+  }
+
+
+  ser.readSerial(); // read serial 
+  //check if there is a command ready to be parsed in serial buffer 
+  if(ser.isParseReady()==true){
+    com.parseSerial(ser.getreceivedChars());//parse command in serial buffer
+  }
+  //check if there is command queud up to be executed
+  if(com.isCommandQd()==false){
+    ser.requestCommand(0);//request command if no command is queued
+  }
+
+
+
+
+
   if(isCommandActive==false){
     if (isCommandQd== true) {
       steppers.beginqdCommand();
@@ -51,5 +78,5 @@ void loop(){
       //set commandQd to true 
     }
   }
-
 }
+
