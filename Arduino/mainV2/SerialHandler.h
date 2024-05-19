@@ -17,6 +17,7 @@ class SerialHandler {
     int requestnum; //number of requests made without a response 
     char receivedChars[NUMCHARS]; //received characters
     void parseValue(int* startIndex, char targetChar[8]); // helper function used in parseCommand to to parse specific value
+    void position2Step();
     
     public: 
     char giveChar(); //test function that returns character

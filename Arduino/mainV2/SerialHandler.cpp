@@ -68,7 +68,7 @@ void SerialHandler::parseValue(int* ptrIndx, char targetChar[8]){
 
 void SerialHandler::parseCommand(struct stepCommand* ptr){
   switch (receivedChars[0] ) {
-    case 'S':
+    case 'S': //step command
     {
 
       char parsedRadialStepGoal[8] = {};
@@ -92,9 +92,11 @@ void SerialHandler::parseCommand(struct stepCommand* ptr){
       (*ptr).angularTimerCount = atol(parsedAngularTimerOut);
       Serial.println("step command parsed");
       parseReady = false;
-      
       break;
       }
+      case 'P': //position command
+      
+
     default:
       parseReady = false;
       Serial.println("no matching command case found");
