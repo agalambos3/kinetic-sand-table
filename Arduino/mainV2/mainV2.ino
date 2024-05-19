@@ -39,17 +39,18 @@ void stall(){
 }
 
 //called after stall happens, back up from stall and sets position to zero
+
 void home(){
   stat.isStalled = false;
   ser.requestCommand(HOME); // request home command
   while (ser.isParseReady()==false) {ser.readSerial();} //read serial until received
-  ser.parseCommand(&qdStepCommand); //parse home command
+  ser.parseCommand(&qdStepCommand,&stat); //parse home command
   steppers.beginCommand(&qdStepCommand); //do home command
   while (stat.isStalled == false) {Serial.println(stat.isStalled);} // wait for command to finish
   
   ser.requestCommand(BACKUP); // request backup command
   while (ser.isParseReady()==false) {ser.readSerial();} //read serial until received
-  ser.parseCommand(&qdStepCommand); //parse home command
+  ser.parseCommand(&qdStepCommand,&stat); //parse home command
   steppers.beginCommand(&qdStepCommand); //do backup command
   while (steppers.isCommandDone()==false) {} // wait for command to finish
 
@@ -133,7 +134,7 @@ void loop(){
 
   //check if there is command ready to be parse
   if(ser.isParseReady()==true){ 
-    ser.parseCommand(&qdStepCommand); //parses command and set qdCommand accordingly
+    ser.parseCommand(&qdStepCommand,&stat); //parses command and set qdCommand accordingly
     stat.isCommandQd = true;
   }
   //check if step command has finished
