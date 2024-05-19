@@ -6,6 +6,7 @@ import os
 import random
 
 #directory for thr file
+
 thrDirectory = "dithermaster_thr"
 isSketchActive = False
 # directory of active sketch
@@ -52,6 +53,7 @@ def loop():
     
 activeSketchName = random.choice(os.listdir(thrDirectory))
 activeSketch=open(thrDirectory+"/"+activeSketchName)
+print(activeSketch.name)
 print(activeSketch.readline())
 # setup()
 # loop()
