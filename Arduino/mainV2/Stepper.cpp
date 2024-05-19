@@ -84,9 +84,13 @@ void StepperHandler::radialStepISR(){
 
   }
   else {
-  radialDone = true;
+    radialDone = true;
+    TIMSK3 &= (0 << OCIE1A);
+    if ((radialDone && angularDone) == true) {
+      TCCR3B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping
+      commandDone = true;
+    }
   }
-
 }
 
 void StepperHandler::angularStepISR(){
@@ -97,9 +101,20 @@ void StepperHandler::angularStepISR(){
     angularSteps += 1;
   }
   else {
-  angularDone = true;
+    angularDone = true;
+    radialDone = true;
+    TIMSK3 &= (0 << OCIE1B);
+    if ((radialDone && angularDone) == true) {
+      TCCR3B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping
+      commandDone = true;
+    }
   }
 }
+
+bool StepperHandler::isCommandDone(){
+  return commandDone;
+}
+
 
 // void StepperHandler::stepISR(){
 //   if(&radialSteps < &activeCommand.radialStepGoal){

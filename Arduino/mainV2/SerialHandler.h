@@ -6,6 +6,8 @@
 #ifndef SERIALHANDLER_H
 #define SERIALHANDLER_H
 
+#include "utility.h"
+
 #define NUMCHARS 18 // number of characters in serial buffer
 #define CQSIZE 5
 
@@ -14,11 +16,13 @@ class SerialHandler {
     bool parseReady = false;//if command is sitting in serial buffer ready to be parsed
     int requestnum; //number of requests made without a response 
     char receivedChars[NUMCHARS]; //received characters
+    void parseValue(int* startIndex, char targetChar[8]); // helper function used in parseCommand to to parse specific value
     
     public: 
     char giveChar(); //test function that returns character
     void setup(); //setup communication
     void readSerial(); //read serial and stores in buffer
+    void parseCommand(struct stepCommand* ptr);
     void requestCommand(int command_type); // requests a type of command to be sent over serial
     char getreceivedChars();
     bool isParseReady();

@@ -48,6 +48,54 @@ void SerialHandler::readSerial(){
 }
 
 
+
+
+void SerialHandler::parseValue(int* ptrIndx, char targetChar[8]){
+  int valIndx = 0;
+  while (receivedChars[*ptrIndx] != ' ') {
+    (targetChar)[valIndx] = receivedChars[*ptrIndx];
+    (*ptrIndx)++;
+    valIndx ++;
+    if(valIndx > 7){
+      break;
+    }
+
+  }
+}
+
+
+
+
+void SerialHandler::parseCommand(struct stepCommand* ptr){
+  switch (receivedChars[0] ) {
+    case 'S':
+    {
+
+      char parsedRadialStepGoal[8] = {};
+      char parsedRadialTimerOut[8] = {};
+      char parsedAngularStepGoal[8] = {};
+      char parsedAngularTimerOut[8] = {};
+
+
+      int indx = 0;
+      parseValue(&indx, parsedRadialStepGoal);
+      indx ++;
+      parseValue(&indx,parsedRadialTimerOut);
+      indx ++;
+      parseValue(&indx,parsedAngularStepGoal);
+      indx++;
+      parseValue(&indx,parsedAngularTimerOut);
+
+      (*ptr).radialStepGoal = atol(parsedRadialStepGoal);
+      (*ptr).radialTimerCount = atol(parsedRadialTimerOut);
+      (*ptr).angularStepGoal = atol(parsedRadialStepGoal);
+      (*ptr).angularTimerCount = atol(parsedAngularTimerOut);
+      }
+
+    }
+}
+  
+
 void SerialHandler::requestCommand(int command_type){
     requestnum++;
     switch (command_type)

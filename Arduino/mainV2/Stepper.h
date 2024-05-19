@@ -58,10 +58,7 @@ class StepperHandler{
   void radialStepISR();
   void angularStepISR();
   void beginCommand(stepCommand* ptr);
-  void beginRadialCommand(long radialTout,long stepgoal);
-  void beginqdCommand();
-  
-  
+  bool isCommandDone();
 };
 
 #endif

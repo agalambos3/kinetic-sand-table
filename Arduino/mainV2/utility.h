@@ -10,9 +10,9 @@ struct stepCommand{
 
 struct tableStatus{
     bool isCommandActive;
+    bool isCommandRequested;
     bool isCommandQd;
     bool isHomed;
-    bool isReceiveReady;
   };
 
 #endif
