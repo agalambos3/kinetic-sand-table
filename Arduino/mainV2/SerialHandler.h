@@ -8,7 +8,7 @@
 
 #include "utility.h"
 
-#define NUMCHARS 18 // number of characters in serial buffer
+#define NUMCHARS 35 // number of characters in serial buffer
 #define CQSIZE 5
 
 class SerialHandler {

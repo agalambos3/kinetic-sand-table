@@ -31,8 +31,6 @@ int StepperHandler::setup(){
     //enable radial driver in hardware
     digitalWrite(RADIAL_EN_PIN,LOW);
 
-    
-
     // intialize radial driver
     radialDriver.begin();
 
@@ -44,6 +42,7 @@ int StepperHandler::setup(){
     radialDriver.pwm_autoscale(true);
     radialDriver.SGTHRS(STALL_VALUE); //setting threshold for stall guard
     
+    commandDone = false;
 
     // //  set up timer for radial stepper
     // TCCR3A = 0;           // Init Timer3
@@ -66,9 +65,13 @@ void StepperHandler::beginCommand(stepCommand* ptr){
     TCCR3B = 0;           // Init Timer3
     TCCR3B |= (1 << CS10); //set Timer3 prescalar to 1
     OCR3A = activeCommand.radialTimerCount;   // Timer3 CompareA Register
-    OCR3B = activeCommand.angularTimerCount; //Timer3 CompareB Register
     TIMSK3 |= (1 << OCIE1A);  // Enable Timer3 COMPA Interrupt
-    TIMSK3 |= (1 << OCIE1B); //  Enable Timer3 COMPB Interrupt
+    
+    TCCR1A = 0; // Init Timer4
+    TCCR1B = 0; // Init Timer4
+    TCCR1B |= (1 << CS10); //set Timer4 prescalar to 1
+    OCR1A = activeCommand.angularTimerCount; //Timer4 CompareA Register
+    TIMSK1 |= (1 << OCIE1A); //  Enable Timer4 COMPA Interrupt
     //TODO: check if CompareB register works for angular way I think it does
 
     
@@ -86,9 +89,9 @@ void StepperHandler::radialStepISR(){
   else {
     radialDone = true;
     TIMSK3 &= (0 << OCIE1A);
+    TCCR3B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping   
     if ((radialDone && angularDone) == true) {
-      TCCR3B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping
-      commandDone = true;
+      commandDone = true;    
     }
   }
 }
@@ -97,15 +100,14 @@ void StepperHandler::angularStepISR(){
   if(angularSteps<activeCommand.angularStepGoal){
     digitalWrite(ANGULAR_STEP_PIN, HIGH);
     digitalWrite(ANGULAR_STEP_PIN, LOW);
-    OCR3A += activeCommand.angularTimerCount; 
+    OCR1A += activeCommand.angularTimerCount; 
     angularSteps += 1;
   }
   else {
     angularDone = true;
-    radialDone = true;
-    TIMSK3 &= (0 << OCIE1B);
+    TIMSK1 &= (0 << OCIE1A);
+    TCCR1B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping
     if ((radialDone && angularDone) == true) {
-      TCCR3B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping
       commandDone = true;
     }
   }

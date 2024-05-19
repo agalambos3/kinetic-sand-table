@@ -1,8 +1,9 @@
 #include "SerialHandler.h"
 // #include "CommandHandler.h"
 #include "Stepper.h"
+#include "elapsedMillis.h"
 
-
+elapsedMillis debugPrintTime;
 
 struct tableStatus stat; // structure for managing state of table 
 
@@ -13,19 +14,26 @@ class StepperHandler steppers; //initialize stepper handler
 class SerialHandler ser; // intialize serial handler
 
 
+long radialISRcalls = 0;
+long angularISRcalls = 0;
 
 
 
-
-//ISR for radial step movement
+// ISR for radial step movement
 ISR(TIMER3_COMPA_vect){
   steppers.radialStepISR();
+  radialISRcalls ++;
 }
 
 //ISR for angular step movement
-ISR(TIMER3_COMPB_vect){
+ISR(TIMER1_COMPA_vect){
   steppers.angularStepISR();
+  angularISRcalls++;
 }
+
+
+
+
 
 
 
@@ -40,7 +48,12 @@ void setup(){
   steppers.setup();
   // setup serial connection with pi 
   ser.setup();
+  debugPrintTime = 0;
 }
+
+//test loop 
+
+
 
 //main loop for table
 void loop(){
@@ -48,7 +61,8 @@ void loop(){
   if(stat.isCommandActive == false){
     if(stat.isCommandQd == true){
       steppers.beginCommand(&qdStepCommand); //begin qd step command
-      stat.isCommandQd == false;
+      stat.isCommandActive = true;
+      stat.isCommandQd = false;
       stat.isCommandRequested = false;
     }
     else{
@@ -77,7 +91,24 @@ void loop(){
   //check if step command has finished
   if(steppers.isCommandDone()==true){
     stat.isCommandActive = false;
+    // Serial.println("COMMAND FINISHED");
   }
+  if(debugPrintTime>2000){
+    Serial.print("Command Active: ");
+    Serial.println(stat.isCommandActive);
+    Serial.print("Command Qd: ");
+    Serial.println(stat.isCommandQd);
+    Serial.print("Command Requested: ");
+    Serial.println(stat.isCommandRequested);
+    Serial.print("Radial ISR calls: ");
+    Serial.println(radialISRcalls);
+    Serial.print("Angular ISR calls: ");
+    Serial.println(angularISRcalls);
+    debugPrintTime = 0;
+    
+
+  }
+
 }
 
 

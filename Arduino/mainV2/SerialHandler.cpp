@@ -77,7 +77,7 @@ void SerialHandler::parseCommand(struct stepCommand* ptr){
       char parsedAngularTimerOut[8] = {};
 
 
-      int indx = 0;
+      int indx = 2;
       parseValue(&indx, parsedRadialStepGoal);
       indx ++;
       parseValue(&indx,parsedRadialTimerOut);
@@ -88,11 +88,20 @@ void SerialHandler::parseCommand(struct stepCommand* ptr){
 
       (*ptr).radialStepGoal = atol(parsedRadialStepGoal);
       (*ptr).radialTimerCount = atol(parsedRadialTimerOut);
-      (*ptr).angularStepGoal = atol(parsedRadialStepGoal);
+      (*ptr).angularStepGoal = atol(parsedAngularStepGoal);
       (*ptr).angularTimerCount = atol(parsedAngularTimerOut);
+      Serial.println("step command parsed");
+      parseReady = false;
+      
+      break;
       }
+    default:
+      parseReady = false;
+      Serial.println("no matching command case found");
 
     }
+    
+    
 }
   
 
