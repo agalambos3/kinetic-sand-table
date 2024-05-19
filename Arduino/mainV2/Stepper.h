@@ -32,7 +32,7 @@
 // internal resistor setting for TMC2209 so that current can be controlled through UART
 #define R_SENSE 0.11f
 // rms current for steppers (in milliamps)
-#define RMS_CURRENT 100
+#define RMS_CURRENT 400
 // microstepping for angular stepper motor 
 #define MICROSTEPS 16
 // stall value at which stall guard is triggered

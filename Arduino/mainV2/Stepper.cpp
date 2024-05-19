@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "Stepper.h"
 
 
@@ -55,6 +56,20 @@ int StepperHandler::setup(){
 // begins specified command 
 void StepperHandler::beginCommand(stepCommand* ptr){
     activeCommand = *ptr;
+    //set radial stepper direction
+    if(activeCommand.radialStepGoal>0){
+      digitalWrite(RADIAL_DIR_PIN, HIGH);
+    }
+    else{
+      digitalWrite(RADIAL_DIR_PIN, LOW);
+    }
+    //set angular stepper direction
+    if(activeCommand.angularStepGoal>0){
+      digitalWrite(ANGULAR_DIR_PIN, HIGH);
+    }
+    else{
+      digitalWrite(ANGULAR_DIR_PIN, LOW);
+    }
     radialSteps = 0;
     angularSteps = 0;
     radialDone = false;
@@ -79,7 +94,7 @@ void StepperHandler::beginCommand(stepCommand* ptr){
 
 void StepperHandler::radialStepISR(){
   //make this section work nicer
-  if(radialSteps<activeCommand.radialStepGoal){
+  if(radialSteps<abs(activeCommand.radialStepGoal)){
     digitalWrite(RADIAL_STEP_PIN, HIGH);
     digitalWrite(RADIAL_STEP_PIN, LOW);
     OCR3A += activeCommand.radialTimerCount; 
@@ -97,7 +112,7 @@ void StepperHandler::radialStepISR(){
 }
 
 void StepperHandler::angularStepISR(){
-  if(angularSteps<activeCommand.angularStepGoal){
+  if(angularSteps<abs(activeCommand.angularStepGoal)){
     digitalWrite(ANGULAR_STEP_PIN, HIGH);
     digitalWrite(ANGULAR_STEP_PIN, LOW);
     OCR1A += activeCommand.angularTimerCount; 

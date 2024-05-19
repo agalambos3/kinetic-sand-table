@@ -60,6 +60,8 @@ void loop(){
   //check if a command is active
   if(stat.isCommandActive == false){
     if(stat.isCommandQd == true){
+      radialISRcalls = 0;
+      angularISRcalls = 0;
       steppers.beginCommand(&qdStepCommand); //begin qd step command
       stat.isCommandActive = true;
       stat.isCommandQd = false;
@@ -93,22 +95,17 @@ void loop(){
     stat.isCommandActive = false;
     // Serial.println("COMMAND FINISHED");
   }
-  if(debugPrintTime>2000){
-    Serial.print("Command Active: ");
-    Serial.println(stat.isCommandActive);
-    Serial.print("Command Qd: ");
-    Serial.println(stat.isCommandQd);
-    Serial.print("Command Requested: ");
-    Serial.println(stat.isCommandRequested);
-    Serial.print("Radial ISR calls: ");
-    Serial.println(radialISRcalls);
-    Serial.print("Angular ISR calls: ");
-    Serial.println(angularISRcalls);
-    debugPrintTime = 0;
-    
-
-  }
-
+  
+    // Serial.print("Command Active: ");
+    // Serial.print(stat.isCommandActive);
+    // Serial.print("   Command Qd: ");
+    // Serial.print(stat.isCommandQd);
+    // Serial.print("   Command Requested: ");
+    // Serial.print(stat.isCommandRequested);
+    // Serial.print("   Radial ISR calls: ");
+    // Serial.print(radialISRcalls);
+    // Serial.print("  Angular ISR calls: ");
+    // Serial.println(angularISRcalls);
 }
 
 
