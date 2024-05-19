@@ -25,6 +25,7 @@ def setup():
     """setup function that runs when script is first called"""
     # serial port 
     ser = serial.Serial('/dev/cu.usbmodem101',baudrate=115200,timeout=.1)
+
     while(ser.is_open==False):
         # wait until serial port is open
         pass
@@ -58,8 +59,10 @@ for line in activeSketch:
     input()
     # print(line)
     thr,r= line.split(" ")
-    # print(thr+"\n")
-    # print(r+"\n")
+    thr = thr.strip()
+    r = r.strip()
+    command = "<P "+thr+" "+r+" >"
+    print(command)
 
 # setup()
 # loop()
@@ -75,7 +78,9 @@ for line in activeSketch:
 
 Program also has to have:
 - way to randomly select thr file
+- home/do spiral before each file to end up at right start position 
 - parse thr one line at a time to q commands
+
 
 
 '''
