@@ -6,13 +6,19 @@
 
 bool isHomed;
 
+struct tableStatus stat;
+struct tableStatus* ptrStat= &stat;
+
 
 SerialHandler ser;
 StepperHandler steppers;
 CommandHandler com;
 void setup(){
+  stat.isCommandActive = false;
+  stat.isCommandQd = false;
+  stat.isReceiveReady = false;
+  stat.isHomed = false;
   ser.setup();
-  
 
 }
 

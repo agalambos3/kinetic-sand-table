@@ -8,4 +8,11 @@ struct stepCommand{
     long angularTimerCount;
   };
 
+struct tableStatus{
+    bool isCommandActive;
+    bool isCommandQd;
+    bool isHomed;
+    bool isReceiveReady;
+  };
+
 #endif
