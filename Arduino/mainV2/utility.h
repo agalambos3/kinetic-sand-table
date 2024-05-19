@@ -19,6 +19,12 @@ struct tableStatus{
     volatile bool isStalled;
     volatile long radialStepPosition;
     volatile long angularStepPosition;
+    volatile float previousTheta;
+    volatile float previousR;
+    volatile float targetTheta;
+    volatile float targetR;
+    volatile long stepDiam; //number of steps needed to traverse table
+
   };
 
 #endif

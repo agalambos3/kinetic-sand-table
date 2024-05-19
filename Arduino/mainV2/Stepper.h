@@ -5,6 +5,7 @@
 #include "TMCStepper.h"
 #include "elapsedMillis.h"
 #include "utility.h"
+#include "tableParams.h"
 
 
 #define STEPPER_SERIAL_PORT Serial1 // serial port for stepper driver 
@@ -28,7 +29,6 @@
 
 #define R_SENSE 0.11f // internal resistor setting for stepper driver (TMC 2209)
 #define RMS_CURRENT 800 // rms current for steppers (in milliamps)
-#define MICROSTEPS 16 // microstepping for angular stepper motor 
 
 
 #define DIAG_PIN 3 //diag pin used for stallguard interrupt

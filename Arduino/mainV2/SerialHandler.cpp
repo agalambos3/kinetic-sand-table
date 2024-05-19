@@ -1,6 +1,6 @@
+#include "USBCore.h"
 #include "SerialHandler.h"
 #include <Arduino.h>
-
 
 
 char SerialHandler::giveChar(){
@@ -50,13 +50,13 @@ void SerialHandler::readSerial(){
 
 
 
-void SerialHandler::parseValue(int* ptrIndx, char targetChar[8]){
+void SerialHandler::parseValue(int* ptrIndx, char targetChar[8],int maxValIndx){
   int valIndx = 0;
   while (receivedChars[*ptrIndx] != ' ') {
     (targetChar)[valIndx] = receivedChars[*ptrIndx];
     (*ptrIndx)++;
     valIndx ++;
-    if(valIndx > 7){
+    if(valIndx > maxValIndx){
       break;
     }
 
@@ -66,7 +66,7 @@ void SerialHandler::parseValue(int* ptrIndx, char targetChar[8]){
 
 
 
-void SerialHandler::parseCommand(struct stepCommand* ptr){
+void SerialHandler::parseCommand(struct stepCommand* stepPtr,struct tableStatus* statPtr){
   switch (receivedChars[0] ) {
     case 'S': //step command
     {
@@ -76,26 +76,80 @@ void SerialHandler::parseCommand(struct stepCommand* ptr){
       char parsedAngularStepGoal[8] = {};
       char parsedAngularTimerOut[8] = {};
 
-
+      int maxValIndx = 7;
       int indx = 2;
-      parseValue(&indx, parsedRadialStepGoal);
+      parseValue(&indx, parsedRadialStepGoal,maxValIndx);
       indx ++;
-      parseValue(&indx,parsedRadialTimerOut);
+      parseValue(&indx,parsedRadialTimerOut,maxValIndx);
       indx ++;
-      parseValue(&indx,parsedAngularStepGoal);
+      parseValue(&indx,parsedAngularStepGoal,maxValIndx);
       indx++;
-      parseValue(&indx,parsedAngularTimerOut);
+      parseValue(&indx,parsedAngularTimerOut,maxValIndx);
 
-      (*ptr).radialStepGoal = atol(parsedRadialStepGoal);
-      (*ptr).radialTimerCount = atol(parsedRadialTimerOut);
-      (*ptr).angularStepGoal = atol(parsedAngularStepGoal);
-      (*ptr).angularTimerCount = atol(parsedAngularTimerOut);
+      (*stepPtr).radialStepGoal = atol(parsedRadialStepGoal);
+      (*stepPtr).radialTimerCount = atol(parsedRadialTimerOut);
+      (*stepPtr).angularStepGoal = atol(parsedAngularStepGoal);
+      (*stepPtr).angularTimerCount = atol(parsedAngularTimerOut);
       Serial.println("step command parsed");
       parseReady = false;
       break;
       }
-      case 'P': //position command
+    case 'P': //position command
+    {
+      //characters to store parsed theta and r
+      char parsedTheta[9] = {};
+      char parsedR[9] = {};
+
+      //floats to store parsed theta and r 
+      float theta;
+      float R;
+
+      //floats to store dif in position
+      float delTheta;
+      float delR;
+
+      int maxValIndx = 9;
+      int indx =2;
+
+      parseValue(&indx,parsedTheta,maxValIndx);
+      indx++;
+      parseValue(&indx, parsedR, maxValIndx);
+
+      theta = atof(parsedTheta);
+      R = atof(parsedR);
+
+      delTheta = theta-(*statPtr).previousTheta;
+      delR = R-(*statPtr).previousR;
+
+      //set goals to zero
+      (*stepPtr).angularStepGoal = 0;
+      (*stepPtr).radialStepGoal = 0;
+
+
+      // compute number of steps for del theta
+
+      float angularStepsFloat = (((CENTRAL_GEAR_TEETH/ANGULAR_STEPPER_TEETH)*NEMA17_STEPS_PER_REVOLUTION*MICROSTEPS)/PI)*delTheta;
+
+      (*stepPtr).angularStepGoal += angularStepsFloat;
+      (*stepPtr).radialStepGoal += angularStepsFloat/8;
       
+
+
+      //compute number of steps for del R
+
+      (*stepPtr).radialStepGoal += delR*((*statPtr).stepDiam/2);
+
+      
+      //compute angular stepping speed
+
+      //compute radial stepping speed
+
+      
+
+
+
+      break;
+    }
 
     default:
       parseReady = false;
