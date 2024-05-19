@@ -7,7 +7,7 @@ import random
 
 #directory for thr file
 
-thrDirectory = "dithermaster_thr"
+thrDirectory = "/Users/andras/Documents/Kinetic Sand Table/Sand Table Code/dithermaster_thr"
 isSketchActive = False
 # directory of active sketch
 activeSketchDir = None
@@ -54,7 +54,13 @@ def loop():
 activeSketchName = random.choice(os.listdir(thrDirectory))
 activeSketch=open(thrDirectory+"/"+activeSketchName)
 print(activeSketch.name)
-print(activeSketch.readline())
+for line in activeSketch:
+    input()
+    # print(line)
+    thr,r= line.split(" ")
+    # print(thr+"\n")
+    # print(r+"\n")
+
 # setup()
 # loop()
 
