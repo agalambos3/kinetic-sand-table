@@ -10,7 +10,7 @@
 
 #define NUMCHARS 35 // number of characters in serial buffer
 #define CQSIZE 5
-
+ 
 class SerialHandler {
     bool isRecieving;
     bool parseReady = false;//if command is sitting in serial buffer ready to be parsed
@@ -23,7 +23,7 @@ class SerialHandler {
     void setup(); //setup communication
     void readSerial(); //read serial and stores in buffer
     void parseCommand(struct stepCommand* ptr);
-    void requestCommand(int command_type); // requests a type of command to be sent over serial
+    void requestCommand(commandType command); // requests a type of command to be sent over serial
     char getreceivedChars();
     bool isParseReady();
     int completedCommand();//sends a character indicating the completion of a succesful command

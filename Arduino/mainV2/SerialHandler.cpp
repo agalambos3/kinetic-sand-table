@@ -105,18 +105,27 @@ void SerialHandler::parseCommand(struct stepCommand* ptr){
 }
   
 
-void SerialHandler::requestCommand(int command_type){
+void SerialHandler::requestCommand(commandType command){
     requestnum++;
-    switch (command_type)
+    switch (command)
     {
-    case 0:
+    case HOME:
+        Serial.write("H\n");
+        break;
+    case BACKUP:
+        Serial.write("B\n");
+        break;
+    case STEP:
         Serial.write("S\n");
         break;
     
-    case 1:
+    case LIGHT:
         Serial.write("L\n");
         break;
     }
+    
+  
+    
 }
 
 int SerialHandler::completedCommand(){

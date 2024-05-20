@@ -27,12 +27,12 @@
 
 
 #define R_SENSE 0.11f // internal resistor setting for stepper driver (TMC 2209)
-#define RMS_CURRENT 400 // rms current for steppers (in milliamps)
+#define RMS_CURRENT 800 // rms current for steppers (in milliamps)
 #define MICROSTEPS 16 // microstepping for angular stepper motor 
 
 
 #define DIAG_PIN 3 //diag pin used for stallguard interrupt
-#define STALL_VALUE 4 // stall value at which stall guard is triggered
+#define STALL_VALUE 3 // stall value at which stall guard is triggered
 #define MIN_STALL_TIME 500 // minimum time (in ms) between stall events (used for simple debouncing of diag pin) 
 
 
@@ -47,12 +47,14 @@ class StepperHandler{
   volatile bool radialDone;
   volatile bool angularDone;
   volatile bool commandDone;
+  elapsedMillis sinceStall;
   stepCommand activeCommand;
   
   public:
   int setup();
   void radialStepISR();
   void angularStepISR();
+  void stallISR();
   void beginCommand(stepCommand* ptr);
   bool isCommandDone();
 };

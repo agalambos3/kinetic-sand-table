@@ -4,6 +4,7 @@
 #include "elapsedMillis.h"
 
 elapsedMillis debugPrintTime;
+elapsedMillis HomingTime;
 
 struct tableStatus stat; // structure for managing state of table 
 
@@ -31,6 +32,42 @@ ISR(TIMER1_COMPA_vect){
   angularISRcalls++;
 }
 
+void stall(){
+  steppers.stallISR();
+  stat.isHomed = false;
+  stat.isStalled = true;
+}
+
+//called after stall happens, back up from stall and sets position to zero
+void home(){
+  stat.isStalled = false;
+  ser.requestCommand(HOME); // request home command
+  while (ser.isParseReady()==false) {ser.readSerial();} //read serial until received
+  ser.parseCommand(&qdStepCommand); //parse home command
+  steppers.beginCommand(&qdStepCommand); //do home command
+  while (stat.isStalled == false) {Serial.println(stat.isStalled);} // wait for command to finish
+  
+  ser.requestCommand(BACKUP); // request backup command
+  while (ser.isParseReady()==false) {ser.readSerial();} //read serial until received
+  ser.parseCommand(&qdStepCommand); //parse home command
+  steppers.beginCommand(&qdStepCommand); //do backup command
+  while (steppers.isCommandDone()==false) {} // wait for command to finish
+
+   
+  stat.angularStepPosition = 0; //set angular position to max position
+  stat.radialStepPosition = 50000; //set radial position to max position
+
+  //prep table to be active again
+  stat.isCommandActive = false;
+  stat.isCommandQd = false;
+  stat.isCommandRequested = false;
+  stat.isHomed = true;
+
+  Serial.println("Table homed!");
+  
+  //tell pi table has been homed?
+
+}
 
 
 
@@ -39,15 +76,20 @@ ISR(TIMER1_COMPA_vect){
 
 // CommandHandler com;
 void setup(){
+  
+  //setup steppers
+  steppers.setup();
+  //setup interrupt pin
+  attachInterrupt(digitalPinToInterrupt(DIAG_PIN), stall, RISING);
+  // setup serial connection with pi 
+  ser.setup();
+
+
   // set intitial state of table
   stat.isCommandActive = false;
   stat.isCommandQd = false;
   stat.isCommandRequested = false;
   stat.isHomed = false;
-  //setup steppers
-  steppers.setup();
-  // setup serial connection with pi 
-  ser.setup();
   debugPrintTime = 0;
 }
 
@@ -57,6 +99,10 @@ void setup(){
 
 //main loop for table
 void loop(){
+  if(stat.isHomed==false){
+    home();
+  }
+  else{
   //check if a command is active
   if(stat.isCommandActive == false){
     if(stat.isCommandQd == true){
@@ -69,7 +115,7 @@ void loop(){
     }
     else{
       if(stat.isCommandRequested == false){
-        ser.requestCommand(0);//request step command to q up
+        ser.requestCommand(STEP);//request step command to q up
         stat.isCommandRequested = true;
       }
     }
@@ -106,6 +152,7 @@ void loop(){
     // Serial.print(radialISRcalls);
     // Serial.print("  Angular ISR calls: ");
     // Serial.println(angularISRcalls);
+  }
 }
 
 

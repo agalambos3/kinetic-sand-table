@@ -1,6 +1,9 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+
+enum commandType {STEP,HOME,BACKUP,LIGHT,POSITION};
+
 struct stepCommand{
     long radialStepGoal;
     long radialTimerCount;
@@ -9,10 +12,13 @@ struct stepCommand{
   };
 
 struct tableStatus{
-    bool isCommandActive;
-    bool isCommandRequested;
-    bool isCommandQd;
-    bool isHomed;
+    volatile bool isCommandActive;
+    volatile bool isCommandRequested;
+    volatile bool isCommandQd;
+    volatile bool isHomed;
+    volatile bool isStalled;
+    volatile long radialStepPosition;
+    volatile long angularStepPosition;
   };
 
 #endif

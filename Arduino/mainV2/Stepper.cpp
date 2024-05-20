@@ -42,6 +42,7 @@ int StepperHandler::setup(){
     radialDriver.en_spreadCycle(false);
     radialDriver.pwm_autoscale(true);
     radialDriver.SGTHRS(STALL_VALUE); //setting threshold for stall guard
+    radialDriver.TCOOLTHRS(0xFFFFF); //better stallguard at low speed this way?
     
     commandDone = false;
 
@@ -78,11 +79,11 @@ void StepperHandler::beginCommand(stepCommand* ptr){
     TIMSK3 |= (1 << OCIE1A);  // Enable Timer3 COMPA Interrupt
     
     //setup angular timer 
-    TCCR1A = 0; // Init Timer4
-    TCCR1B = 0; // Init Timer4
-    TCCR1B |= (1 << CS10); //set Timer4 prescalar to 1
-    OCR1A = activeCommand.angularTimerCount; //Timer4 CompareA Register
-    TIMSK1 |= (1 << OCIE1A); //  Enable Timer4 COMPA Interrupt    
+    TCCR1A = 0; // Init Timer1
+    TCCR1B = 0; // Init Timer1
+    TCCR1B |= (1 << CS10); //set Timer1 prescalar to 1
+    OCR1A = activeCommand.angularTimerCount; //Timer1 CompareA Register
+    TIMSK1 |= (1 << OCIE1A); //  Enable Timer1 COMPA Interrupt    
 }
 
 //ISR for radial stepper movement
@@ -115,10 +116,18 @@ void StepperHandler::angularStepISR(){
   else {
     angularDone = true;
     TIMSK1 &= (0 << OCIE1A);
-    TCCR1B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop motor stepping
+    TCCR1B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer1 to stop motor stepping
     if ((radialDone && angularDone) == true) {
       commandDone = true;
     }
+  }
+}
+
+void StepperHandler::stallISR(){
+  if(sinceStall > MIN_STALL_TIME){
+    TCCR3B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer3 to stop radial stepping
+    TCCR1B &= (0<<CS10)|(0<<CS11)|(0 << CS12); //turn off Timer1 to stop angular stepping
+    sinceStall = 0; //time since stall set to zero
   }
 }
 
