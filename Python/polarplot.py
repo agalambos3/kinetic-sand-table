@@ -4,7 +4,7 @@ import numpy as np
 
 
 #load data from thr file
-data = np.loadtxt("/Users/andras/Documents/Kinetic Sand Table/Sand Table Code/dithermaster_thr/dither_yinyang.thr")
+data = np.loadtxt("dithermaster_thr/dither_eccentricerase.thr")
 #reshape data and seperate into theta and r array
 tdata = np.transpose(data)
 theta = tdata[0]
@@ -47,6 +47,7 @@ def update(frame):
     
 is_animated = True
 if is_animated == True:
-    ani = animation.FuncAnimation(fig=fig, func=update, frames=len(r), interval=3)
+    framelength = 1000/60 # length of each frame in animation in milliseconds
+    ani = animation.FuncAnimation(fig=fig, func=update, frames=len(r), interval=framelength)
 
 plt.show()
